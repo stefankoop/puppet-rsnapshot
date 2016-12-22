@@ -31,7 +31,7 @@ class rsnapshot::config (
 
   # custom function, if only a hostname is given as a param, this is an empty hash
   # the next loop would break as puppet does not allow to reassign variables
-  # the function checks $hosts for elements like: 
+  # the function checks $hosts for elements like:
   # { foo => } and converts those to { foo => {} }
   $hosts_clean = assert_empty_hash($hosts)
 
@@ -81,6 +81,7 @@ class rsnapshot::config (
     #$backup_scripts         = pick_undef($hash['backup_scripts'], $rsnapshot::params::config_backup_scripts)
 
     $snapshot_dir           = "${config_snapshot_root}/${host}"
+    $snapshot_root_man      =  $hash['snapshot_root_man']
     $config                 = "${conf_d}/${host}.rsnapshot.conf"
     $lockfile               = "${lockpath}/${host}.pid"
     $logfile                = "${logpath}/${host}.log"
@@ -135,7 +136,7 @@ class rsnapshot::config (
       content => template('rsnapshot/rsnapshot.erb'),
     }
 
-    
+
 
     if has_key($hash, backup_scripts) {
       $hash[backup_scripts].each |$script, $scriptconf| {
@@ -158,7 +159,7 @@ class rsnapshot::config (
           content => template("rsnapshot/${script}.sh.erb"),
           mode    => '0755',
         }
-        
+
       }
     }
 
@@ -190,4 +191,3 @@ class rsnapshot::config (
     }
   }
 }
-

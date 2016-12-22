@@ -2,8 +2,12 @@
 # Module 'rsnapshot'
 
 config_version	<%= @config_version %>
+<% if @snapshot_root_man -%>
+snapshot_root	<%= @snapshot_root_man %>
+<% else -%>
 snapshot_root	<%= @snapshot_root -%>/<%=@host%>
-<% if @no_create_root != '' -%> 
+<% end -%>
+<% if @no_create_root != '' -%>
 no_create_root	<%= @no_create_root %>
 <% end -%>
 cmd_rsync	<%= @cmd_rsync %>
